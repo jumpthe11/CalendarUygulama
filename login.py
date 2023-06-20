@@ -1,26 +1,29 @@
 import PySimpleGUI as sg
+import sqlite3
+from Register import *
+conn = sqlite3.connect('Database.db')
+c = conn.cursor()
 
-"""
-    The basic PySimpleGUI design pattern for a persistent window that is
-    updated using data input from one of the elements.
-    
-    Copyright 2020 PySimpleGUI.org
-"""
 
-layout = [[sg.Text('Your typed chars appear here:'), sg.Text(size=(20, 1), key='-OUTPUT-')],
-          [sg.Input(key='-IN-')],
-          [sg.Button('Show'), sg.Button('Exit')]]
-
+layout = [[sg.Text('Kullanıcı Adı:'),  sg.Input(key='Kullanıcı')],
+          [sg.Text('Parola:'),  sg.Input(key='Password')],
+          [sg.Button('Giriş yap'), sg.Button('Çık')]]
 window = sg.Window('Window Title', layout)
-
+Datas=[]
+for i in range(1):
+    Datas.append(i)
 while True:
     event, values = window.read()
     print(event, values)
-    if event == sg.WIN_CLOSED or event == 'Exit':
+    if event == sg.WIN_CLOSED or event == 'Çık':
         break
-    if event == 'Show':
-        # change the "output" element to be the value of "input" element
-        window['-OUTPUT-'].update(values['-IN-'])
-        degerler=values['-IN-']
-        print(degerler)
+    if event == 'Giriş yap':
+        search = searchKullaniciad(Datas[0])
+        if search == None:
+            print("Böyle kullanıcı yok")
+            continue
+
+
+
+conn.close()
 window.close()
