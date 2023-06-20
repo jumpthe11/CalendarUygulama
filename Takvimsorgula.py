@@ -5,8 +5,8 @@ import sqlite3
 conn = sqlite3.connect('Database.db')
 c = conn.cursor()
 c.execute("""CREATE TABLE IF NOT EXISTS takvim(
-    islemgunu date, 
-    islemsaat date, 
+    islembaslama date, 
+    islembitis date, 
     OlayTipi text, 
     OlayAcikama text
 )
@@ -14,26 +14,17 @@ c.execute("""CREATE TABLE IF NOT EXISTS takvim(
 def takvimekle(Dat):
     conn = sqlite3.connect('Database.db')
     c = conn.cursor()
-    c.execute("""INSERT INTO takvim("islemgunu", "islemsaat", "OlayTipi", "OlayAcikama") VALUES(?,?,?,?)""",Dat)
+    c.execute("""INSERT INTO takvim("islembaslama", "islembitis", "OlayTipi", "OlayAcikama") VALUES(?,?,?,?)""",Dat)
     conn.commit()
     c.fetchone()
     conn.close()
-def takvimsorgula(islemtarih):
-    conn = sqlite3.connect('Database.db')
-    c = conn.cursor()
-    search_command = """SELECT * from takvim WHERE islemgunu = '{}'  """
-    c.execute(search_command.format(islemtarih))
-    user = c.fetchone()
-    conn.close
-    return user
+def takvimsorgula():
+    sd
 
 sg.theme('Dark Red')
 layout = [[sg.Text('Takvim', key='-TXT-')],
-      [sg.Input(key='-SOR-', size=(20,1)), sg.CalendarButton('Sorgu İçin Tarih seç',  target='-SOR-', format='%d/%m/%Y', default_date_m_d_y=(12,6,2023), )], 
-      [sg.Button('Sorgula')],
-      [sg.Text(size=(20,5),)],   
-      [sg.Input(key='-IN-', size=(20,1)), sg.CalendarButton('Başlangıç günü seç',  target='-IN-', format='%d/%m/%Y', default_date_m_d_y=(12,6,2023), )],
-      [sg.Input(key='-IN2-', size=(20,1)), sg.CalendarButton('Başlangıç saati seç',  target='-IN2-', format='%H:%M', default_date_m_d_y=(12,6,2023), )],
+      [sg.Input(key='-IN-', size=(20,1)), sg.CalendarButton('Başlangıç tarihi seç',  target='-IN-', format='%d/%m/%Y %H:%M', default_date_m_d_y=(12,6,2023), )],
+      [sg.Input(key='-IN2-', size=(20,1)), sg.CalendarButton('Bitiş tarihi seç',  target='-IN2-', format='%d/%m/%Y %H:%M', default_date_m_d_y=(12,6,2023), )],
       [sg.Input(key='-IN3-', size=(20,1)), sg.Text(size=(20, 1), text="Olayın Tipi")],
       [sg.Input(key='-IN4-', size=(20,50)), sg.Text(size=(20, 1), text="Olayın Açıklanması")],
       [sg.Button('Seç'), sg.Exit()]]
@@ -48,17 +39,11 @@ while True:
     if event in (sg.WIN_CLOSED, 'Exit'):
         break
     elif event == 'Seç':
-        values['-IN-']
         Dat[0]=values['-IN-']
         Dat[1]=values['-IN2-']
         Dat[2]=values['-IN3-']
         Dat[3]=values['-IN4-']
         takvimekle(Dat)
-    elif event== 'Sorgula':
-        sorgu=values['-SOR-']
-        son=takvimsorgula(sorgu)
-        print(son)
-        sg.popup(son)
 conn.commit()
 c.close()
 window.close()
