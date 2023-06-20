@@ -23,13 +23,13 @@ while True:
         break
     if event == 'Giriş yap':
         search = searchKullaniciad(Datas[0])
-        if search != None:
-            print("Böyle kullanıcı Var")
+        if search == None:
+            print("Böyle kullanıcı yok")
             continue
         logindurum = searchLogin(Datas[0],Datas[1])
         if logindurum != None:
             print("oldu")
-            execfile(Takvim.py)
+            execfile('Takvim.py')
 
 
 
