@@ -41,7 +41,16 @@ def searchKullaniciad(kullaniciad):
     conn.close
     return user
 
-def __main__():
+def searchLogin(kullanici,Sifre):
+    conn = sqlite3.connect('Database.db')
+    c = conn.cursor()
+    search_command = """SELECT * from kullanici WHERE Kullanıcı = '{}' AND Password = '{}'  """
+    c.execute(search_command.format(kullanici,Sifre))
+    sifredurum = c.fetchone()
+    conn.close
+    return sifredurum
+
+if __name__=="__main__":
     layout = [[sg.Text('Ad:'),  sg.Input(key='Ad')],
             [sg.Text('Soyad:'),  sg.Input(key='Soyad')],
             [sg.Text('Kullanıcı Adı:'),  sg.Input(key='Kullanıcı')],
@@ -72,8 +81,13 @@ def __main__():
             Aas[6]=values['Email']
             Aas[7]=values['Adres']
             Aas[8]=values['KullanıcıType']
-            search=search_username(asd)
-            conn.commit()
+            search=searchKullaniciad(Aas[2])
+            if search != None:
+                print("Kullanıcı adı mevcut")
+                window.close()
+            c.execute('''INSERT INTO kullanici("Ad", "Soyad", "Kullanıcı", "Password", "TC", "Telefon", "Email", "Adres", "KullanıcıType")
+          VALUES (?,?,?,?,?,?,?,?,?)''',Aas)
+    conn.commit()
     conn.close()
     window.close()
 
