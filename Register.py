@@ -4,6 +4,9 @@ import sqlite3
 conn = sqlite3.connect('Database.db')
 c = conn.cursor()
 
+#İki farklı yerde oluşturma kodu olması gerekmiyordu. Sadece anamenüden başlatılsa yeterli.
+'''
+#Tablo yok ise yeni bir tablo oluşturur
 c.execute("""CREATE TABLE IF NOT EXISTS kullanici(
     Ad text, 
     Soyad text, 
@@ -16,21 +19,6 @@ c.execute("""CREATE TABLE IF NOT EXISTS kullanici(
     KullanıcıType text
 )
 """)
-
-'''
-c.execute("""CREATE TABLE kullanici(
-    Ad text, 
-    Soyad text, 
-    Kullanıcı Adı text, 
-    Password text, 
-    TC Kimlik No text, 
-    Telefon text, 
-    Email text,
-    Adres text,
-    KullanıcıType text
-)
-""")
-
 '''
 def searchKullaniciad(kullaniciad):
     conn = sqlite3.connect('Database.db')

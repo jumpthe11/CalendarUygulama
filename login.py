@@ -3,18 +3,7 @@ import sqlite3
 from Register import *
 conn = sqlite3.connect('Database.db')
 c = conn.cursor()
-c.execute("""CREATE TABLE IF NOT EXISTS kullanici(
-    Ad text, 
-    Soyad text, 
-    Kullanıcı Adı text, 
-    Password text, 
-    TC Kimlik No text, 
-    Telefon text, 
-    Email text,
-    Adres text,
-    KullanıcıType text
-)
-""")
+
 
 layout = [[sg.Text('Kullanıcı Adı:'),sg.Input(key='Kullanıcı')],
           [sg.Text('Parola:'),  sg.Input(key='Password')],

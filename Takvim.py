@@ -4,6 +4,7 @@ import sqlite3
 
 conn = sqlite3.connect('Database.db')
 c = conn.cursor()
+#Tablo yok ise yeni bir tablo oluşturur
 c.execute("""CREATE TABLE IF NOT EXISTS takvim(
     islemgunu date, 
     islemsaat date, 
