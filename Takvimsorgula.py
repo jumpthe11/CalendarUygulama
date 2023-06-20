@@ -14,7 +14,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS takvim(
 def takvimekle(Dat):
     conn = sqlite3.connect('Database.db')
     c = conn.cursor()
-    c.execute("""INSERT INTO takvim("islembaslama", "islembitis", "OlayTipi", "OlayAcikama") VALUES(?,?,?,?)""",Dat)
+    c.execute("""INSERT INTO takvim("isAlembaslama", "islembitis", "OlayTipi", "OlayAcikama") VALUES(?,?,?,?)""",Dat)
     conn.commit()
     c.fetchone()
     conn.close()
