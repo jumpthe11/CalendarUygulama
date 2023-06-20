@@ -18,6 +18,7 @@ def takvimekle(Dat):
     conn.commit()
     c.fetchone()
     conn.close()
+
 def takvimsorgula(islemtarih):
     conn = sqlite3.connect('Database.db')
     c = conn.cursor()
@@ -26,6 +27,15 @@ def takvimsorgula(islemtarih):
     user = c.fetchone()
     conn.close
     return user
+
+def takvimguncelle(Dat,islemtarihi):
+    conn = sqlite3.connect('Database.db')
+    c = conn.cursor()
+    update_command = """UPDATE takvim SET islemgunu= '{}', islemsaat='{}',OlayTipi='{}', OlayAcikama='{}'  WHERE islemgunu = '{}'  """
+    c.execute(update_command.format(Dat[0],Dat[1],Dat[2],Dat[3],islemtarihi))
+    conn.commit()
+    conn.close()
+
 
 sg.theme('Dark Red')
 layout = [[sg.Text('Takvim', key='-TXT-')],
@@ -36,7 +46,7 @@ layout = [[sg.Text('Takvim', key='-TXT-')],
       [sg.Input(key='-IN2-', size=(20,1)), sg.CalendarButton('Başlangıç saati seç',  target='-IN2-', format='%H:%M', default_date_m_d_y=(12,6,2023), )],
       [sg.Input(key='-IN3-', size=(20,1)), sg.Text(size=(20, 1), text="Olayın Tipi")],
       [sg.Input(key='-IN4-', size=(20,50)), sg.Text(size=(20, 1), text="Olayın Açıklanması")],
-      [sg.Button('Seç'), sg.Exit()]]
+      [sg.Button('Ekle'),sg.Button('Sil'),sg.Button('Güncelle'), sg.Exit()]]
 
 window = sg.Window('window', layout)
 Dat=[]
@@ -45,10 +55,14 @@ for i in range(4):
 while True:
     event, values = window.read()
     print(event, values)
+    Dat[0]=values['-IN-']
+    Dat[1]=values['-IN2-']
+    Dat[2]=values['-IN3-']
+    Dat[3]=values['-IN4-']
+    sorgu=values['-SOR-']
     if event in (sg.WIN_CLOSED, 'Exit'):
         break
-    elif event == 'Seç':
-        values['-IN-']
+    elif event == 'Ekle':
         Dat[0]=values['-IN-']
         Dat[1]=values['-IN2-']
         Dat[2]=values['-IN3-']
@@ -59,6 +73,13 @@ while True:
         son=takvimsorgula(sorgu)
         print(son)
         sg.popup(son)
+    elif event == 'Güncelle':
+        sorgu=values['-SOR-']
+        Dat[0]=values['-IN-']
+        Dat[1]=values['-IN2-']
+        Dat[2]=values['-IN3-']
+        Dat[3]=values['-IN4-']
+        takvimguncelle(Dat,sorgu)
 conn.commit()
 c.close()
 window.close()
